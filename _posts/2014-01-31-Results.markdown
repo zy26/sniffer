@@ -2,4 +2,20 @@
 layout: page
 ---
 
-In `database` directory, you will find following files. 
+In `database` directory (in this configuration `/home/dilawar/Downloads`), you
+will find following files.
+
+~~~
+accused.sh
+convicted.sh
+high_serverity.csv
+identical_serverity.csv
+mild_serverity.csv
+moderate_serverity.csv
+sniffer.sqlite3
+summary.sh
+veryhigh_serverity.csv
+~~~
+
+The shell scripts are standalone shell script with graphviz graph in them.
+Running them will produce a graphviz graph.
