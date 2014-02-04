@@ -4,7 +4,7 @@ title: Code sniffer
 repository_url: http://github.com/dilawar/sniffer
 ---
 
-<h1> {{ page.title }} </h1>
+## {{ page.title }} 
 
 This application is intended to use to check plagiarism in assignments. It has
 some capabilities to check copying in pdf files also.
