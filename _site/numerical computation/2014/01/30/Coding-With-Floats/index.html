@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="None worth writing.">
+    <title>Coding with float</title>
+    <meta name="author" content="Dilawar Singh" />
+    <link rel="stylesheet" href="https://github.com/themes/minimal/stylesheets/styles.css">
+ <style>
+      header { zoom: 1.0; width: 150px}
+      header h1 { margin-bottom: 5px; }
+      header h1 a { color: #494949; font-weight: bold; }
+      header h3 { margin-top: 20px; margin-bottom: 5px; }
+      header p.view { margin-bottom: 5px; }
+      header p.view small { padding-top: 2px; }
+      header ul {
+        zoom: 0.7;
+        margin-top: 25px;
+      }
+      section { width: 600px }
+      section p { margin-top: 10px; }
+      section h1 { margin-bottom: 15px; }
+      section h2 { margin-bottom: 10px; }
+      section h2 { margin-bottom: 10px; }
+      footer { bottom: 20px; }
+      footer p { margin-bottom: 5px; }
+      .half-width {
+        float: left;
+        width: 100px;
+        list-style: none;
+        padding: 5px;
+        margin: 7px;
+        margin-bottom: 10px;
+      }
+      .half-width h4 {
+        margin-bottom: 5px;
+      }
+      .half-width ul {
+        padding-left: 0;
+      }
+      .half-width ul li {
+        list-style: inside;
+        font-size: 15px;
+      }
+      .clear-fix {
+        clear: both;
+      }
+    </style>
+    <script src="https://github.com/themes/minimal/javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+        <h1><a href="/">Notes</a></h1>
+        <p class="view"> <img src= "http://dilawar.github.io/images/pic_enhanced.jpg"
+            alt="dilawar" height="150" width="150" /> </p>
+        <p class="view"><a href="/projects/index.html">Open Source Projects <small>Might be useful to you</small></a></p>
+        <p class="view"><a target="_blank"
+            href="http://www.cen.iitb.ac.in/">Masters<small>Microelectronics and
+                VLSI</small></a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ee.iitb.ac.in/~hpc">Ph. D.</a><small>Abandoned
+            after 3 years</small>
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ncbs.res.in/bhalla">Research Fellow <small>Moose,
+                The Neural Simulator</small> </a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://dilawarrajput.wordpress.com">Blog <small>This much I
+                know</small></a> 
+        </p>
+
+        
+        </header>
+
+        <footer>
+        </footer>
+
+    <section id="post">
+    <h1>Coding with float </h1>
+<div class="content">
+  <p>Some people trust computer to a degree that they will accept its computation as
+correct when algorithm is right and program has no bug. Some mistrust it to an
+extent that they wont trust any calculation returned by it.</p>
+
+<p>There are serious limitations. Not only one can not represent 10/3 accurately as
+finite decimal representation, but one can't represent some finite decimal
+representation such as 0.1 correctly in binary format [1]. See [2] for a
+detailed commentary on issues involved with computation with real numbers.</p>
+
+<p>These issues have led many to explore alternatives of computation [3].  Till
+people come up with a nice model to compute real numbers, we can find ways to
+deal with them on  computer.</p>
+
+<p>On Windows machine, try computing $$\sqrt[2]{4} - 2$$ or $$2- \sqrt[2]{4}$$ in
+its inbuilt calculator. If you find its answer surprising and think of it as bug
+like <a href="http://www.youtube.com/watch?v=oBNyBhzu8zI">this guy</a> you should read [1].</p>
+
+<p>Reference [1] explains why and when $$x == x + 1.0$$ is true and when and why $$x
+== x$$ is false when dealing with floating point numbers. Its a great reference
+for electrical engineering students who wants to implement a processor with
+floating point units in some HDL.</p>
+
+<p>A rule of thumb is that when adding two floating point numbers, their relative
+values make a huge difference and one should be prepared for surprises. One can
+start his research into this by this <a href="http://en.wikipedia.org/wiki/Loss_of_significance">wiki
+article</a>. Ordering matters in
+such cases.  Adding a float a into float $$b$$ can be very different from adding
+$$b$$ into $$a$$. Here is Haskell code which proves it.  It computes the
+function $$f(x) = (2- x) - (2<sup>3</sup> - \frac{x<sup>3}{12})$$.</sup> One can translate it into
+other language also.  This also serve as a beauty of Haskell syntax.</p>
+
+<p>~~~
+-- This is type signature of function. It says that function calc takes an
+-- argument of type Float and returns a Float
+calc :: Float -> Float</p>
+
+<p>-- This is the definition of function. Quite readable.
+calc x = (x - (x ^ 3) / 12)</p>
+
+<p>-- Haskell can infer the type by itself. So we can choose not to write a type
+-- declaration. This function subtract f(x) from f(2).
+calc2 x = (calc 2) - (calc x)</p>
+
+<p>-- This function takes a list of Float and apply function calc2 on all of its</p>
+
+<h2>-- elements and add them up. In python, equivalent is</h2>
+
+<p>-- def calcList1(l):
+--    newlist = []
+--    for a in l:
+--       newlist.append(calc2(a))</p>
+
+<h2>--    return (0.0 + sum(newlist))</h2>
+
+<p>calcList1 :: [Float] -> Float
+calcList1 l = foldl (+) 0.0 (map calc2 l)</p>
+
+<p>-- This is like the previous function but sum is done in reverse order. This is
+-- not entirely correct. we are using foldr (+) and foldl (+) function to sum a
+-- list. While the foldr adds first to the last, foldl adds from last to first.
+-- Again this is not entirely correct.</p>
+
+<p>calcList2 :: [Float] -> Float
+calcList2 l = foldr (+) 0.0 (map calc2 l)</p>
+
+<p>-- Here we are applying the same function on the element of list but adding them
+-- in different order. The input step construct a list l where each element is
+-- step size away from the previos one.
+-- e.g. [0.0,0.5..2.0] is [0.0, 0.5, 1.0, 1.5, 2.0]</p>
+
+<p>test1 :: Float -> Float
+test1 step = (calcList1 l) - (calcList2 l)</p>
+
+<pre><code>where 
+    l = [0.0,step..2.0]
+</code></pre>
+
+<p>~~~</p>
+
+<p>Let's see now what happens when we run this script <code>filename.hs</code> in <code>ghci
+filename.hs</code></p>
+
+<pre><code>*Main&gt; test1 0.1
+9.536743e-7
+*Main&gt; test1 0.01
+2.2888184e-5
+*Main&gt; test1 0.001
+2.4414063e-4
+*Main&gt; test1 0.0001
+-3.7109375e-2
+*Main&gt; 
+</code></pre>
+
+<p>One expects 0.0 but this is not what is happening here. Life with floating point
+numbers is not easy, and it can be terribly confusing. If one is writing
+simulator, it pays to be aware of potential traps.</p>
+
+<p>Refereces:</p>
+
+<ol>
+<li><a href="http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html">What every computer scientist should know about floating-point
+arithmatic</a></li>
+<li><a href="http://cstheory.stackexchange.com/questions/2058/how-are-real-numbers-specified-in-computation/2070#2070">How are real number specified in computation</a></li>
+<li><a href="http://www.ee.iitb.ac.in/web/schedule/seminar/Talk_by_NarendraKarmarkar">Continuum Computing – The Next Step in the Theory of Computing</a></li>
+</ol>
+
+
+</div>
+
+<div id="related">
+  <h2>Related Posts</h2>
+  <ul class="posts">
+    
+      <li> <a href="/noguinomousenoproblem/2014/01/29/Using-mutt/">Using mutt, saving password and writing mail in markdown</a></li>
+    
+      <li> <a href="/[%22tutorial%22,%20%22literate%20programming%22]/2013/10/30/Python-frontend-for-noweb/">Python front-end for Noweb literate tool</a></li>
+    
+      <li> <a href="/tutorial/2013/10/17/A-Moose-tutorial/">Moose tutorial - Python scripting</a></li>
+    
+  </ul>
+</div>
+
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+<!-- Google analytic -->
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-47774588-1', 'dilawar.github.io');
+    ga('send', 'pageview');
+</script>
+
+<div id="comment">
+  
+</div>
+
+
+
+    </section>
+
+    <!-- Latex in post -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Google analytic -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-47774588-1', 'dilawar.github.io');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="None worth writing.">
+    <title>Floating point Arithmetic Disasters </title>
+    <meta name="author" content="Dilawar Singh" />
+    <link rel="stylesheet" href="https://github.com/themes/minimal/stylesheets/styles.css">
+ <style>
+      header { zoom: 1.0; width: 150px}
+      header h1 { margin-bottom: 5px; }
+      header h1 a { color: #494949; font-weight: bold; }
+      header h3 { margin-top: 20px; margin-bottom: 5px; }
+      header p.view { margin-bottom: 5px; }
+      header p.view small { padding-top: 2px; }
+      header ul {
+        zoom: 0.7;
+        margin-top: 25px;
+      }
+      section { width: 600px }
+      section p { margin-top: 10px; }
+      section h1 { margin-bottom: 15px; }
+      section h2 { margin-bottom: 10px; }
+      section h2 { margin-bottom: 10px; }
+      footer { bottom: 20px; }
+      footer p { margin-bottom: 5px; }
+      .half-width {
+        float: left;
+        width: 100px;
+        list-style: none;
+        padding: 5px;
+        margin: 7px;
+        margin-bottom: 10px;
+      }
+      .half-width h4 {
+        margin-bottom: 5px;
+      }
+      .half-width ul {
+        padding-left: 0;
+      }
+      .half-width ul li {
+        list-style: inside;
+        font-size: 15px;
+      }
+      .clear-fix {
+        clear: both;
+      }
+    </style>
+    <script src="https://github.com/themes/minimal/javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+        <h1><a href="/">Notes</a></h1>
+        <p class="view"> <img src= "http://dilawar.github.io/images/pic_enhanced.jpg"
+            alt="dilawar" height="150" width="150" /> </p>
+        <p class="view"><a href="/projects/index.html">Open Source Projects <small>Might be useful to you</small></a></p>
+        <p class="view"><a target="_blank"
+            href="http://www.cen.iitb.ac.in/">Masters<small>Microelectronics and
+                VLSI</small></a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ee.iitb.ac.in/~hpc">Ph. D.</a><small>Abandoned
+            after 3 years</small>
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ncbs.res.in/bhalla">Research Fellow <small>Moose,
+                The Neural Simulator</small> </a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://dilawarrajput.wordpress.com">Blog <small>This much I
+                know</small></a> 
+        </p>
+
+        
+        </header>
+
+        <footer>
+        </footer>
+
+    <section id="post">
+    <h1>Floating point Arithmetic Disasters  </h1>
+<div class="content">
+  <p><strong>“ Floating point numbers are like piles of sand; every time you move them around, you lose a little sand and pick up a little dirt. ”</strong> — Brian Kernighan and P. J. Plauger.</p>
+
+<p>If you are using windows machine then open your calculator, try following calculation,</p>
+
+<p>$latex \sqrt[2]{4} - 2$ and $latex 2 - \sqrt[2]{4}$.</p>
+
+<p>Are both results same? Are they equal to 0?</p>
+
+<p>After saying WTF 3-4 times, try contemplating the consequences of it.</p>
+
+<p>3 major accidents which happened in which floating point errors were shoot off the accepted limits were quiet deadly.</p>
+
+<ul>
+<li><strong>Ariane 5 rocket</strong>. [June 4, 1996] 10 year, $7 billion ESA project exploded after launch. They converted 64-bit float to 16 bit signed int. Unanticipated (that what they call it in their official report, it's simply insane) overflow.</li>
+</ul>
+
+
+<p>See this interesting report here <a href="http://www.around.com/ariane.html">http://www.around.com/ariane.html</a></p>
+
+<ul>
+<li><strong>Vancouver stock exchange</strong>. [November, 1983]. Index undervalued by 44%. Recalculated index after each trade by adding change in price. 22 months of accumulated truncation error.</li>
+</ul>
+
+
+<p>Well, no one can blame people on Wall Streets. Screwing up the financial world runs like plague in their family.</p>
+
+<ul>
+<li><strong>Patriot missile accident</strong>. [February 25, 1991] Failed to track scud; hit Army barracks, killed 28. Inaccuracy in measuring time in 1/20 of a second since using 24 bit binary floating point.</li>
+</ul>
+
+
+<p>I do not think any U.S. newspaper reported the incident since arms industry lobby is very influential. Report is available here <a href="http://www.fas.org/spp/starwars/gao/im92026.htm">http://www.fas.org/spp/starwars/gao/im92026.htm</a></p>
+
+<p>If you have seen that Movie 'The Matrix 3' in which Neo meets the Architect, read this conversation between them.</p>
+
+<p>Neo: <strong>Why am I here? </strong></p>
+
+<p>Architect: <strong>Your life is the sum of a remainder of an unbalanced equation inherent to the programming of the matrix. you are the eventuallity of an anomaly which despite my sincerest efforts I have been unable to eliminate from what is otherwise a harmony of mathematical precision. While it remains a burden asciduously avoided it is not unexpected, and thus not beyond a measure of control. Which has led you inexorably....here </strong></p>
+
+<p>Make sense why the Architect is helpless?</p>
+
+<p>$latex \sqrt<a href="4">2</a> - 2 $ is not zero because of the algorithm implemented inside the ALU to calculate the square root of a number. They use Taylor series based algo (Most primitive being Newton Raphson method). See <a href="http://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Approximations_that_depend_on_IEEE_representation">details here</a>. These 'floating point arithmatic' is a tricky business.</p>
+
+<p>Second hurdle is calculating the roots of 'polynomial'. <strong>It is well proven results [Group Theory - Évariste Galois, 1938]that there exists no algorithm which can produce the exact root of a polynomial of degree higher than 3.</strong> One has to do the numerical computations. Avoid calculating roots of polynomials as Plague whenever you see them in your scientific computation. That is one reason why there is no state-space based circuit simulator even though they are conceptually tempting.</p>
+
+<p>There are languages which are capable of calculating these expression precisely. They emulate 'Turing machines' (equivalent to Lambda calculus). Languages such as LISP (which is popular among AI people) and the new cult Haskell are capable of computing to the arbitrary number precision, only bounded by the memory. The drawback is, that since every bit is treated as a 'symbol', these languages are computationally very slow. Supporter of these languages say, and I agree, that if you learn these 'functional programming languages, you will laugh at jokes which no one will understand.</p>
+
+<p>Haskell is also being used as HDL and the verification is quite easy in these languages. But functional languages are yet to make their way into EE-IITB curriculum.
+END NOTES:
+In a masterpiece 'Alice in Wonderland' which was written by a Mathematician and Logician, there are many instances of mathematical reasoning between Alice and Humpty-Dumpty, Alice and Mad Hatter. The conversation between Tweedledum and Tweedledee have the reeks of reducible logic everywhere. The creator of 'Simplex Method' in Linear programming, Dantiz starts his book by a conversation between Alice and Hatter at his tea party which you can read in 'Through the looking glass'. In which Hatter was insisting Alice to take some more tea. Alice got irritated and argued that how can she take more tea when she has none. On it, Hatter replied that probably she doesn't know how to take less tea. This novel is one of the defining work which points out the limitation of natural language in describing 'truth'. No wonder Jacquas Derrida came up with his school of thought 'Deconstruction.' See <a href="http://prelectur.stanford.edu/lecturers/derrida/deconstruction.html"> here </a></p>
+
+</div>
+
+<div id="related">
+  <h2>Related Posts</h2>
+  <ul class="posts">
+    
+      <li> <a href="/numerical%20computation/2014/01/30/Coding-With-Floats/">Coding with float</a></li>
+    
+      <li> <a href="/noguinomousenoproblem/2014/01/29/Using-mutt/">Using mutt, saving password and writing mail in markdown</a></li>
+    
+      <li> <a href="/[%22tutorial%22,%20%22literate%20programming%22]/2013/10/30/Python-frontend-for-noweb/">Python front-end for Noweb literate tool</a></li>
+    
+  </ul>
+</div>
+
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+<!-- Google analytic -->
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-47774588-1', 'dilawar.github.io');
+    ga('send', 'pageview');
+</script>
+
+<div id="comment">
+  
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  var disqus_shortname = 'dilawarblog'; // required: replace example with your forum shortname
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+   })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</div>
+
+
+
+    </section>
+
+    <!-- Latex in post -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Google analytic -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-47774588-1', 'dilawar.github.io');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>

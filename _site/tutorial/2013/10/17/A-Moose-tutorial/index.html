@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="None worth writing.">
+    <title>Moose tutorial - Python scripting</title>
+    <meta name="author" content="Dilawar Singh" />
+    <link rel="stylesheet" href="https://github.com/themes/minimal/stylesheets/styles.css">
+ <style>
+      header { zoom: 1.0; width: 150px}
+      header h1 { margin-bottom: 5px; }
+      header h1 a { color: #494949; font-weight: bold; }
+      header h3 { margin-top: 20px; margin-bottom: 5px; }
+      header p.view { margin-bottom: 5px; }
+      header p.view small { padding-top: 2px; }
+      header ul {
+        zoom: 0.7;
+        margin-top: 25px;
+      }
+      section { width: 600px }
+      section p { margin-top: 10px; }
+      section h1 { margin-bottom: 15px; }
+      section h2 { margin-bottom: 10px; }
+      section h2 { margin-bottom: 10px; }
+      footer { bottom: 20px; }
+      footer p { margin-bottom: 5px; }
+      .half-width {
+        float: left;
+        width: 100px;
+        list-style: none;
+        padding: 5px;
+        margin: 7px;
+        margin-bottom: 10px;
+      }
+      .half-width h4 {
+        margin-bottom: 5px;
+      }
+      .half-width ul {
+        padding-left: 0;
+      }
+      .half-width ul li {
+        list-style: inside;
+        font-size: 15px;
+      }
+      .clear-fix {
+        clear: both;
+      }
+    </style>
+    <script src="https://github.com/themes/minimal/javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+        <h1><a href="/">Notes</a></h1>
+        <p class="view"> <img src= "http://dilawar.github.io/images/pic_enhanced.jpg"
+            alt="dilawar" height="150" width="150" /> </p>
+        <p class="view"><a href="/projects/index.html">Open Source Projects <small>Might be useful to you</small></a></p>
+        <p class="view"><a target="_blank"
+            href="http://www.cen.iitb.ac.in/">Masters<small>Microelectronics and
+                VLSI</small></a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ee.iitb.ac.in/~hpc">Ph. D.</a><small>Abandoned
+            after 3 years</small>
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ncbs.res.in/bhalla">Research Fellow <small>Moose,
+                The Neural Simulator</small> </a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://dilawarrajput.wordpress.com">Blog <small>This much I
+                know</small></a> 
+        </p>
+
+        
+        </header>
+
+        <footer>
+        </footer>
+
+    <section id="post">
+    <h1>Moose tutorial - Python scripting </h1>
+<div class="content">
+  <h2>About</h2>
+
+<blockquote><p>MOOSE is the Multiscale Object-Oriented Simulation Environment. It is the base
+and numerical core for large, detailed simulations including Computational
+Neuroscience and Systems Biology.
+<a href="http://moose.ncbs.res.in">Moose home page</a></p></blockquote>
+
+<h2>Getting and installing moose</h2>
+
+<p>Install <code>subversion</code> and configure it for using proxies (if there is a need).
+Now download the source code from repository,</p>
+
+<pre><code>svn co https://svn.code.sf.net/p/moose/code/moose/branches/buildQ/ moose
+</code></pre>
+
+<p>In <code>moose</code> directory, you must have all the source-code of moose. If you need
+some help, fire an email to <a href="http://sourceforge.net/p/moose/mailman/moose-devel/">our mailing list</a>.</p>
+
+<p>To build,</p>
+
+<pre><code>cd moose 
+make 
+</code></pre>
+
+<p>You need to install dependencies first. There is no <code>configure</code> magic or <code>cmake</code>
+build system. You can also download and install packages built for various linux
+distributions and Windows system. They are available on <a href="http://moose.ncbs.res.in">our home
+page</a>.</p>
+
+<h2>Introduction</h2>
+
+<p>This document is built over <a href="http://moose.ncbs.res.in/component/option,com_wrapper/Itemid,91/">official
+tutorial</a>. It
+describes how to script moose or use python shell to build and simulate models
+in moose.</p>
+
+<h2>Importing MOOSE and accessing built-in documentation</h2>
+
+<p>In a python script you import modules to access the functionalities they provide.</p>
+
+<div class="highlight"><pre><code class="python"><span class="kn">import</span> <span class="nn">moose</span>
+</code></pre></div>
+
+
+<p>This makes the moose module available for use in Python. You can use Python's
+builtin <code>help</code> function to read the toplevel documentation for the moose module:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">help</span><span class="p">(</span><span class="n">moose</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>This will give you an overview of the module. Press <code>q</code> to exit the pager and
+get back to the interpreter. You can also access the documentation for
+individual classes and functions this way.</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">help</span><span class="p">(</span><span class="n">moose</span><span class="o">.</span><span class="n">connect</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>To list the available functions and classes you can use dir function1.</p>
+
+<div class="highlight"><pre><code class="python"><span class="nb">dir</span><span class="p">(</span><span class="n">moose</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Moose has built-in documentation in the C++-source-code independent of Python.
+The moose module has a separate <code>doc</code> function to extract this documentation.</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="n">moose</span><span class="o">.</span><span class="n">Compartment</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>The class level documentation will show whatever the author/maintainer of the
+class wrote for documentation followed by a list of various kinds of fields and
+their data types. This can be very useful in an interactive session.</p>
+
+<p>Each field can have its own detailed documentation, too.</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&#39;Compartment.Rm&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Note that you need to put the class-name followed by dot followed by field-name
+within quotes. Otherwise, <code>moose.doc</code> will receive the field value as parameter
+and get confused.</p>
+
+<h2>Creating objects and traversing the object hierarchy</h2>
+
+<p>Different types of biological entities like neurons, enzymes, etc are
+represented by classes and individual instances of those types are objects of
+those classes. Objects are the building-blocks of models in MOOSE. We call MOOSE
+objects <code>element</code> and use object and element interchangably in the context of
+MOOSE. Elements are conceptually laid out in a tree-like hierarchical structure.
+If you are familiar with file system hieararchies in common operating systems,
+this should be simple.</p>
+
+<p>At the top of the object hierarchy sits the Shell, equivalent to the root
+directory in UNIX-based systems and represented by the path <code>/</code>. You can list
+the existing objects under <code>/</code> using the le function.</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">le</span><span class="p">()</span>
+</code></pre></div>
+
+
+<p>This shows something like</p>
+
+<div class="highlight"><pre><code class="bash">Elements under /
+/Msgs
+/clock
+/classes
+</code></pre></div>
+
+
+<p><code>Msgs</code>, <code>clock</code> and <code>classes</code> are predefined objects in MOOSE. And each object
+can contain other objects inside them. You can see them by passing the path of
+the parent object to le. Entering</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">le</span><span class="p">(</span><span class="s">&#39;/clock&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>prints</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">Elements</span> <span class="n">under</span> <span class="o">/</span><span class="n">clock</span>
+<span class="o">/</span><span class="n">clock</span><span class="o">/</span><span class="n">tick</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+
+<p>Now let us create some objects of our own. This can be done by invoking MOOSE
+class constructors (just like regular Python classes).</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">model</span> <span class="o">=</span> <span class="n">moose</span><span class="o">.</span><span class="n">Neutral</span><span class="p">(</span><span class="s">&#39;/model&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>The above creates a Neutral object named model. Neutral is the most basic class
+in MOOSE. A Neutral element can act as a container for other elements. We can
+create something under model:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">soma</span> <span class="o">=</span> <span class="n">moose</span><span class="o">.</span><span class="n">Compartment</span><span class="p">(</span><span class="s">&#39;/model/soma&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Every element has a unique path. This is a concatenation of the names of all the
+objects one has to traverse starting with the root to reach that element.</p>
+
+<div class="highlight"><pre><code class="python"><span class="k">print</span> <span class="n">soma</span><span class="o">.</span><span class="n">path</span>
+</code></pre></div>
+
+
+<p>shows you its path:</p>
+
+<div class="highlight"><pre><code class="python"><span class="o">/</span><span class="n">model</span><span class="o">/</span><span class="n">soma</span>
+</code></pre></div>
+
+
+<p>and the name of the element can be printed, too:</p>
+
+<div class="highlight"><pre><code class="python"><span class="k">print</span> <span class="n">soma</span><span class="o">.</span><span class="n">name</span>
+</code></pre></div>
+
+
+<p>shows:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">soma</span>
+</code></pre></div>
+
+
+<p>The Compartment elements model small portions of a neuron. Some basic
+experiments can be carried out using a single compartment. Let us create another
+object to act on the soma. This will be a step current generator to inject a
+current pulse into the soma.</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">pulse</span> <span class="o">=</span> <span class="n">moose</span><span class="o">.</span><span class="n">PulseGen</span><span class="p">(</span><span class="s">&#39;/model/pulse&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>You can use le at any point to see what is there:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">le</span><span class="p">(</span><span class="s">&#39;/model&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>will show you</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">Elements</span> <span class="n">under</span> <span class="o">/</span><span class="n">model</span>
+<span class="o">/</span><span class="n">model</span><span class="o">/</span><span class="n">soma</span>
+<span class="o">/</span><span class="n">model</span><span class="o">/</span><span class="n">pulse</span>
+</code></pre></div>
+
+
+<p>And finally, we can create a Table to record the timeseries of the soma's
+membrane potential. It is good practice to organize the data separately from the
+model. So we do it as below:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">data</span> <span class="o">=</span> <span class="n">moose</span><span class="o">.</span><span class="n">Neutral</span><span class="p">(</span><span class="s">&#39;/data&#39;</span><span class="p">)</span>
+<span class="n">vmtab</span> <span class="o">=</span> <span class="n">moose</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s">&#39;/data/soma_Vm&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Now that we have the essential elements for a small model, we can go on to set
+the properties of this model and the experimental protocol.  4 Setting the
+properties of elements: accessing fields</p>
+
+<p>Elements have several kinds of fields. The simplest ones are the value fields.
+These can be accessed like ordinary Python members. You can list the available
+value fields using getFieldNames function:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">soma</span><span class="o">.</span><span class="n">getFieldNames</span><span class="p">(</span><span class="s">&#39;valueFinfo&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Here valueFinfo is the type name for value fields. Finfo is short form of field
+information. For each type of field there is a name ending with -Finfo. The
+above will display the following list:</p>
+
+<div class="highlight"><pre><code class="bash"> <span class="o">(</span><span class="s1">&#39;this&#39;</span>,
+<span class="s1">&#39;name&#39;</span>,
+<span class="s1">&#39;me&#39;</span>,
+<span class="s1">&#39;parent&#39;</span>,
+<span class="s1">&#39;children&#39;</span>,
+<span class="s1">&#39;path&#39;</span>,
+<span class="s1">&#39;class&#39;</span>,
+<span class="s1">&#39;linearSize&#39;</span>,
+<span class="s1">&#39;objectDimensions&#39;</span>,
+<span class="s1">&#39;lastDimension&#39;</span>,
+<span class="s1">&#39;localNumField&#39;</span>,
+<span class="s1">&#39;pathIndices&#39;</span>,
+<span class="s1">&#39;msgOut&#39;</span>,
+<span class="s1">&#39;msgIn&#39;</span>,
+<span class="s1">&#39;Vm&#39;</span>,
+<span class="s1">&#39;Cm&#39;</span>,
+<span class="s1">&#39;Em&#39;</span>,
+<span class="s1">&#39;Im&#39;</span>,
+<span class="s1">&#39;inject&#39;</span>,
+<span class="s1">&#39;initVm&#39;</span>,
+<span class="s1">&#39;Rm&#39;</span>,
+<span class="s1">&#39;Ra&#39;</span>,
+<span class="s1">&#39;diameter&#39;</span>,
+<span class="s1">&#39;length&#39;</span>,
+<span class="s1">&#39;x0&#39;</span>,
+<span class="s1">&#39;y0&#39;</span>,
+<span class="s1">&#39;z0&#39;</span>,
+<span class="s1">&#39;x&#39;</span>,
+<span class="s1">&#39;y&#39;</span>,
+<span class="s1">&#39;z&#39;</span><span class="o">)</span>
+</code></pre></div>
+
+
+<p>Some of these fields are for internal or advanced use, some give access to the
+physical properties of the biological entity we are trying to model. Now we are
+interested in <code>Cm</code>, <code>Rm</code>, <code>Em</code> and <code>initVm</code>. In the most basic form, a neuronal
+compartment acts like a parallel RC circuit with a battery attached. Where <code>R</code>
+and C are resistor and capacitor connected in parallel and the battery with
+voltage Em is in series with the resistor.</p>
+
+<p>The fields are populated with some defaults.</p>
+
+<div class="highlight"><pre><code class="python"><span class="k">print</span> <span class="n">soma</span><span class="o">.</span><span class="n">Cm</span><span class="p">,</span> <span class="n">soma</span><span class="o">.</span><span class="n">Rm</span><span class="p">,</span> <span class="n">soma</span><span class="o">.</span><span class="n">Vm</span><span class="p">,</span> <span class="n">soma</span><span class="o">.</span><span class="n">Em</span><span class="p">,</span> <span class="n">soma</span><span class="o">.</span><span class="n">initVm</span>
+</code></pre></div>
+
+
+<p>will give you:</p>
+
+<div class="highlight"><pre><code class="text">1.0 1.0 -0.06 -0.06 -0.06
+</code></pre></div>
+
+
+<p>You can set the <code>Cm</code> and <code>Rm</code> fields to something realistic using simple
+assignment (we follow SI unit)2.</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">soma</span><span class="o">.</span><span class="n">Cm</span> <span class="o">=</span> <span class="mf">1e-9</span>
+<span class="n">soma</span><span class="o">.</span><span class="n">Rm</span> <span class="o">=</span> <span class="mf">1e7</span>
+<span class="n">soma</span><span class="o">.</span><span class="n">initVm</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.07</span>
+</code></pre></div>
+
+
+<p>Instead of writing print statements for each field, you could use the utility
+function showfield to see that the changes took effect:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">showfield</span><span class="p">(</span><span class="n">soma</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>will list most of the fields with their values:</p>
+
+<div class="highlight"><pre><code class="python"><span class="p">[</span> <span class="o">/</span><span class="n">model</span><span class="o">/</span><span class="n">soma</span> <span class="p">]</span>
+<span class="n">diameter</span>             <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">linearSize</span>           <span class="o">=</span> <span class="mi">1</span>
+<span class="n">localNumField</span>        <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Ra</span>                   <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">y0</span>                   <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">Rm</span>                   <span class="o">=</span> <span class="mf">10000000.0</span>
+<span class="n">inject</span>               <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">Em</span>                   <span class="o">=</span> <span class="o">-</span><span class="mf">0.06</span>
+<span class="n">initVm</span>               <span class="o">=</span> <span class="o">-</span><span class="mf">0.07</span>
+<span class="n">x</span>                    <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">path</span>                 <span class="o">=</span> <span class="o">/</span><span class="n">model</span><span class="o">/</span><span class="n">soma</span>
+<span class="n">x0</span>                   <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">z0</span>                   <span class="o">=</span> <span class="mf">0.0</span>
+<span class="k">class</span>                <span class="err">= </span><span class="nc">Compartment</span>
+<span class="n">name</span>                 <span class="o">=</span> <span class="n">soma</span>
+<span class="n">Cm</span>                   <span class="o">=</span> <span class="mf">1e-09</span>
+<span class="n">Vm</span>                   <span class="o">=</span> <span class="o">-</span><span class="mf">0.06</span>
+<span class="n">length</span>               <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">Im</span>                   <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">y</span>                    <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">lastDimension</span>        <span class="o">=</span> <span class="mi">0</span>
+<span class="n">z</span>                    <span class="o">=</span> <span class="mf">0.0</span>
+</code></pre></div>
+
+
+<p>Now we can setup the current pulse to be delivered to the soma:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">pulse</span><span class="o">.</span><span class="n">delay</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">50e-3</span>
+<span class="n">pulse</span><span class="o">.</span><span class="n">width</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">100e-3</span>
+<span class="n">pulse</span><span class="o">.</span><span class="n">level</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e-9</span>
+<span class="n">pulse</span><span class="o">.</span><span class="n">delay</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e9</span>
+</code></pre></div>
+
+
+<p>This tells the pulse generator to create a 100 ms long pulse 50 ms after the
+start of the simulation. The amplitude of the pulse is set to 1 nA. We set the
+delay for the next pulse to a very large value (larger than the total simulation
+time) so that the stimulation stops after the first pulse. Had we set
+pulse.delay = 0 , it would have generated a pulse train at 50 ms intervals.  5
+Putting them together: setting up connections</p>
+
+<p>In order for the elements to interact during simulation, we need to connect them
+via messages. Elements are connected to each other using special source and
+destination fields. These types are named srcFinfo and destFinfo. You can query
+the available source and destination fields on an element using getFieldNames as
+before. This time, let us do it another way: by the class name:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">getFieldNames</span><span class="p">(</span><span class="s">&#39;PulseGen&#39;</span><span class="p">,</span> <span class="s">&#39;srcFinfo&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>This form has the advantage that you can get information about a class without
+creating elements of that class. The above code shows:</p>
+
+<div class="highlight"><pre><code class="python"><span class="p">(</span><span class="s">&#39;childMsg&#39;</span><span class="p">,</span> <span class="s">&#39;outputOut&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Here childMsg is a source field that is used by the MOOSE internals to connect
+child elements to parent elements. The second one is of our interest. Check out
+the built-in documentation here:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">doc</span><span class="p">(</span><span class="s">&#39;PulseGen.outputOut&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>shows</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">PulseGen</span><span class="o">.</span><span class="n">outputOut</span><span class="p">:</span> <span class="n">double</span> <span class="o">-</span> <span class="n">source</span> <span class="n">field</span>
+</code></pre></div>
+
+
+<p>Current output level.  so this is the output of the pulse generator and this
+must be injected into the soma to stimulate it. But where in the soma can we
+send it? Again, MOOSE has some introspection built in:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">soma</span><span class="o">.</span><span class="n">getFieldNames</span><span class="p">(</span><span class="s">&#39;destFinfo&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>shows</p>
+
+<div class="highlight"><pre><code class="python"><span class="p">(</span><span class="s">&#39;parentMsg&#39;</span><span class="p">,</span>
+ <span class="s">&#39;set_this&#39;</span><span class="p">,</span>
+ <span class="s">&#39;get_this&#39;</span><span class="p">,</span>
+   <span class="o">...</span>
+ <span class="s">&#39;set_z&#39;</span><span class="p">,</span>
+ <span class="s">&#39;get_z&#39;</span><span class="p">,</span>
+ <span class="s">&#39;injectMsg&#39;</span><span class="p">,</span>
+ <span class="s">&#39;randInject&#39;</span><span class="p">,</span>
+ <span class="s">&#39;cable&#39;</span><span class="p">,</span>
+ <span class="s">&#39;process&#39;</span><span class="p">,</span>
+ <span class="s">&#39;reinit&#39;</span><span class="p">,</span>
+ <span class="s">&#39;initProc&#39;</span><span class="p">,</span>
+ <span class="s">&#39;initReinit&#39;</span><span class="p">,</span>
+ <span class="s">&#39;handleChannel&#39;</span><span class="p">,</span>
+ <span class="s">&#39;handleRaxial&#39;</span><span class="p">,</span>
+ <span class="s">&#39;handleAxial&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Now that is a long list. But much of it are fields for internal or special use.
+Anything that starts with get<em> or set</em> are internal destFinfo used for accessing
+value fields (we shall use one of those when setting up data recording). Among
+the rest injectMsg seems to be the most likely candidate. Use the connect
+function to connect the pulse generator output to the soma input:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">m</span> <span class="o">=</span> <span class="n">moose</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">pulse</span><span class="p">,</span> <span class="s">&#39;outputOut&#39;</span><span class="p">,</span> <span class="n">soma</span><span class="p">,</span> <span class="s">&#39;injectMsg&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+<div class="highlight"><pre><code class="python"><span class="n">connect</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">source_field</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">dest_field</span><span class="p">)</span> 
+</code></pre></div>
+
+
+<p>creates a <code>message</code> from source element's source_field field to dest elements
+dest_field field and returns that message. Messages are also elements. You can
+print them to see their identity:</p>
+
+<div class="highlight"><pre><code class="python"><span class="k">print</span> <span class="n">m</span>
+</code></pre></div>
+
+
+<p>on my system gives3</p>
+
+<div class="highlight"><pre><code class="python"><span class="o">&lt;</span><span class="n">moose</span><span class="o">.</span><span class="n">SingleMsg</span><span class="p">:</span> <span class="nb">id</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">dataId</span><span class="o">=</span><span class="mi">733</span><span class="p">,</span> <span class="n">path</span><span class="o">=/</span><span class="n">Msgs</span><span class="o">/</span><span class="n">singleMsg</span><span class="p">[</span><span class="mi">733</span><span class="p">]</span><span class="o">&gt;</span>
+</code></pre></div>
+
+
+<p>You can get some more information about a message:</p>
+
+<div class="highlight"><pre><code class="python"><span class="k">print</span> <span class="n">m</span><span class="o">.</span><span class="n">e1</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">e2</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">srcFieldsOnE1</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">destFieldsOnE2</span>
+</code></pre></div>
+
+
+<p>will confirm what you already know:</p>
+
+<div class="highlight"><pre><code class="python"><span class="o">/</span><span class="n">model</span><span class="o">/</span><span class="n">pulse</span> <span class="o">/</span><span class="n">model</span><span class="o">/</span><span class="n">soma</span> <span class="p">(</span><span class="s">&#39;outputOut&#39;</span><span class="p">,)</span> <span class="p">(</span><span class="s">&#39;injectMsg&#39;</span><span class="p">,)</span>
+</code></pre></div>
+
+
+<p>A message element has fields e1 and e2 referring to the elements it connects.
+For single one-directional messages these are source and destination elements,
+which are pulse and soma respectively. The next two items are lists of the field
+names which are connected by this message.</p>
+
+<p>You could also check which elements are connected to a particular field:</p>
+
+<div class="highlight"><pre><code class="python"><span class="k">print</span> <span class="n">soma</span><span class="o">.</span><span class="n">neighbours</span><span class="p">[</span><span class="s">&#39;injectMsg&#39;</span><span class="p">]</span>
+</code></pre></div>
+
+
+<p>shows</p>
+
+<div class="highlight"><pre><code class="python"><span class="p">[</span><span class="o">&lt;</span><span class="n">moose</span><span class="o">.</span><span class="n">ematrix</span><span class="p">:</span> <span class="n">class</span><span class="o">=</span><span class="n">PulseGen</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="mi">729</span><span class="p">,</span><span class="n">path</span><span class="o">=/</span><span class="n">model</span><span class="o">/</span><span class="n">pulse</span><span class="o">&gt;</span><span class="p">]</span>
+</code></pre></div>
+
+
+<p>Notice that the list contains something called ematrix. We discuss this later.
+Also neighbours is a new kind of field: lookupFinfo which behaves like a
+dictionary. Next we connect the table to the soma to retrieve its membrane
+potential Vm. This is where all those destFinfo starting with get<em> or set</em> come
+in use. For each value field <code>X</code>, there is a <code>destFinfo get_{X}</code> to retrieve the
+value at simulation time. This is used by the table to record the values <code>Vm</code>
+takes.</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">vmtab</span><span class="p">,</span> <span class="s">&#39;requestData&#39;</span><span class="p">,</span> <span class="n">soma</span><span class="p">,</span> <span class="s">&#39;get_Vm&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>This finishes our model and recording setup.  6 Scheduling and running the
+simulation</p>
+
+<p>With the model all set up, we have to schedule the simulation. MOOSE has a
+central clock element(<code>/clock</code>) to manage time. Clock has a set of Tick elements
+under it that take care of advancing the state of each element with time as the
+simulation progresses. Every element to be included in a simulation must be
+assigned a tick. Each tick can have a different ticking interval (dt) that
+allows different elements to be updated at different rates. We initialize the
+ticks and set their <code>dt</code> values using the <code>setClock</code> function.</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">setClock</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.025e-3</span><span class="p">)</span>
+<span class="n">moose</span><span class="o">.</span><span class="n">setClock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.025e-3</span><span class="p">)</span>
+<span class="n">moose</span><span class="o">.</span><span class="n">setClock</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">0.25e-3</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>This will initialize clock <code>#0</code> and <code>1</code> with <code>dt</code> = 25 μs and clock <code>#2</code> with <code>dt</code>
+= 250 μs. Thus all the elements scheduled on clock <code>#0</code> and <code>1</code> will be updated
+every 25 us and those on clock #2 every 250 μs. We use the faster clocks for
+the model components where finer timescale is required for numerical accuracy
+and the slower clock to sample the values of <code>Vm</code>.</p>
+
+<p>So to assign tick # 2 to the table for recording Vm, we pass its whole path to
+the useClock function.</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">useClock</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s">&#39;/data/soma_Vm&#39;</span><span class="p">,</span> <span class="s">&#39;process&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Read this as "use clock #2 on the element at path <code>/data/soma_Vm</code> to call its
+process method at every step". Every class that is supposed to update its state
+or take some action during simulation implements a process method. And in most
+cases that is the method we want the ticks to call at every time step. A less
+common method is init, which is implemented in some classes to interleave
+actions or updates that must be executed in a specific order4. The Compartment
+class is one such case where a neuronal compartment has to know the Vm of its
+neighboring compartments before it can calculate its Vm for the next step. This
+is done with</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">useClock</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">soma</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="s">&#39;init&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Here we used the path field instead of writing the path explicitly.</p>
+
+<p>Next we assign tick # 1 to process method of everthing under /model.</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">useClock</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s">&#39;/model/##&#39;</span><span class="p">,</span> <span class="s">&#39;process&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Here the second argument is an example of wildcard path. The ## matches
+everything under the path preceding it at any depth. Thus if we had some other
+objects under <code>/model/soma</code>, process method of those would also have been
+scheduled on tick # 1. This is very useful for complex models where it is tedius
+to scheduled each element individually. In this case we could have used <code>/model/#</code>
+as well for the path. This is a single level wildcard which matches only the
+children of <code>/model</code> but does not go farther down in the hierarchy.</p>
+
+<p>Once the elements are assigned ticks, we can put the model to its initial state
+using</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">reinit</span><span class="p">()</span>
+</code></pre></div>
+
+
+<p>You may remember that we had changed initVm from -0.06 to -0.07. The reinit call
+we initialize <code>Vm</code> to that value. You can verify that:</p>
+
+<div class="highlight"><pre><code class="python"><span class="k">print</span> <span class="n">soma</span><span class="o">.</span><span class="n">Vm</span>
+
+<span class="o">-</span><span class="mf">0.07</span>
+</code></pre></div>
+
+
+<p>Finally, we run the simulation for 300 ms:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">moose</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mf">300e-3</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>The data will be recorded by the <code>soma_vm</code> table, which is referenced by the
+variable <code>vmtab</code>. The Table class provides a <code>numpy</code> array interface to its
+content.  The field is vec. So you can easily plot the membrane potential using
+the <code>matplotlib</code> library.</p>
+
+<div class="highlight"><pre><code class="python"><span class="kn">import</span> <span class="nn">pylab</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">pylab</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">300e-3</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vmtab</span><span class="o">.</span><span class="n">vec</span><span class="p">))</span>
+<span class="n">pylab</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">vmtab</span><span class="o">.</span><span class="n">vec</span><span class="p">)</span>
+<span class="n">pylab</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+
+<p>The first line imports the pylab submodule from matplotlib. This useful for
+interactive plotting. The second line creates the time points to match our
+somulation time and length of the recorded data. The third line plots the Vm and
+the fourth line makes it visible. Does the plot match your expectation?  7 Some
+more details 7.1 ematrix, melement and element</p>
+
+<p>MOOSE elements are instances of the class melement. Compartment, PulseGen and
+other MOOSE classes are derived classes of melement. All melement instances are
+contained in array-like structures called ematrix. Each ematrix object has a
+numerical id_ field uniquely identifying it. An ematrix can have one or more
+elements. You can create an array of elements:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">comp_array</span> <span class="o">=</span> <span class="n">moose</span><span class="o">.</span><span class="n">ematrix</span><span class="p">(</span><span class="s">&#39;/model/comp&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,),</span> <span class="s">&#39;Compartment&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>This tells MOOSE to create an ematrix of 3 Compartment elements with path
+<code>/model/comp</code>. For ematrix objects with multiple elements, the index in the
+ematrix is part of the element path.</p>
+
+<div class="highlight"><pre><code class="python"><span class="k">print</span> <span class="n">comp_array</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">comp_array</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>shows that comp_array is an instance of ematrix class. You can loop through the
+elements in an ematrix like a Python list:</p>
+
+<div class="highlight"><pre><code class="python"><span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">comp_array</span><span class="p">:</span>   
+    <span class="k">print</span> <span class="n">comp</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>shows</p>
+
+<div class="highlight"><pre><code class="python"><span class="o">/</span><span class="n">model</span><span class="o">/</span><span class="n">comp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;moose.melement&#39;</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">model</span><span class="o">/</span><span class="n">comp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;moose.melement&#39;</span><span class="o">&gt;</span>
+<span class="o">/</span><span class="n">model</span><span class="o">/</span><span class="n">comp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span><span class="nb">type</span> <span class="s">&#39;moose.melement&#39;</span><span class="o">&gt;</span>
+</code></pre></div>
+
+
+<p>Thus elements are instances of class melement. All elements in an ematrix share
+the id_ of the <code>ematrix</code> which can retrieved by <code>melement.getId()</code>.</p>
+
+<p>A frequent use case is that after loading a model from a file one knows the
+paths of various model components but does not know the appropriate class name
+for them. For this scenario there is a function called element which converts
+(<code>casts</code> in programming jargon) a path or any moose object to its proper MOOSE
+class. You can create additional references to soma in the example this way:</p>
+
+<div class="highlight"><pre><code class="python"><span class="n">x</span> <span class="o">=</span> <span class="n">moose</span><span class="o">.</span><span class="n">element</span><span class="p">(</span><span class="s">&#39;/model/soma&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+<p>Any MOOSE class can be extended in Python. But any additional attributes added
+in Python are invisible to MOOSE. So those can be used for functionalities at
+the Python level only. You can see <code>Demos/squid/squid.py</code> for an example.</p>
+
+<h2>Finfos</h2>
+
+<p>The following kinds of Finfo are accessible in Python</p>
+
+<div class="highlight"><pre><code class="text">valueFinfo
+    simple values. For each readable valueFinfo XYZ there is a destFinfo get_XYZ that can be used for reading the value at run time. If XYZ is writable then there will also be destFinfo to set it: set_XYZ. Example: Compartment.Rm 
+lookupFinfo
+    lookup tables. These fields act like Python dictionaries but iteration is not supported. Example: Neutral.neighbours. 
+srcFinfo
+    source of a message. Example: PulseGen.outputOut. 
+destFinfo
+    destination of a message. Example: Compartment.injectMsg. Apart from being used in setting up messages, these are accessible as functions from Python. HHGate.setupAlpha is an example. 
+sharedFinfo
+    a composition of source and destination fields. Example: Compartment.channel. 
+</code></pre></div>
+
+
+<h2>Moving on</h2>
+
+<p>Now you know the basics of pymoose and how to access the help system. MOOSE is
+backward compatible with GENESIS and most GENESIS classes have been
+reimplemented in MOOSE. There is slight change in naming (MOOSE uses CamelCase),
+and setting up messages are different. But GENESIS documentation is still a good
+source for documentation on classes that have been ported from GENESIS.</p>
+
+<p>In addition, the Demos/snippets directory in your MOOSE installation has small
+executable python scripts that show usage of specific classes or
+functionalities. Beyond that you can browse the code in the Demos directory to
+see some more complex models.</p>
+
+<p>If the built-in MOOSE classes do not satisfy your needs entirely, you are
+welcome to add new classes to MOOSE. The API documentation will help you get
+started. Finally you can join the moose mailing list and request for help.
+Footnotes:</p>
+
+<p>Author: Subhasis Ray</p>
+
+<p>Org version 7.8.11 with Emacs version 23</p>
+
+</div>
+
+<div id="related">
+  <h2>Related Posts</h2>
+  <ul class="posts">
+    
+      <li> <a href="/numerical%20computation/2014/01/30/Coding-With-Floats/">Coding with float</a></li>
+    
+      <li> <a href="/noguinomousenoproblem/2014/01/29/Using-mutt/">Using mutt, saving password and writing mail in markdown</a></li>
+    
+      <li> <a href="/[%22tutorial%22,%20%22literate%20programming%22]/2013/10/30/Python-frontend-for-noweb/">Python front-end for Noweb literate tool</a></li>
+    
+  </ul>
+</div>
+
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+<!-- Google analytic -->
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-47774588-1', 'dilawar.github.io');
+    ga('send', 'pageview');
+</script>
+
+<div id="comment">
+  
+</div>
+
+
+
+    </section>
+
+    <!-- Latex in post -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Google analytic -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-47774588-1', 'dilawar.github.io');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>

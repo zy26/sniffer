@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="None worth writing.">
+    <title>Dynamic Programming : Few remarks</title>
+    <meta name="author" content="Dilawar Singh" />
+    <link rel="stylesheet" href="https://github.com/themes/minimal/stylesheets/styles.css">
+ <style>
+      header { zoom: 1.0; width: 150px}
+      header h1 { margin-bottom: 5px; }
+      header h1 a { color: #494949; font-weight: bold; }
+      header h3 { margin-top: 20px; margin-bottom: 5px; }
+      header p.view { margin-bottom: 5px; }
+      header p.view small { padding-top: 2px; }
+      header ul {
+        zoom: 0.7;
+        margin-top: 25px;
+      }
+      section { width: 600px }
+      section p { margin-top: 10px; }
+      section h1 { margin-bottom: 15px; }
+      section h2 { margin-bottom: 10px; }
+      section h2 { margin-bottom: 10px; }
+      footer { bottom: 20px; }
+      footer p { margin-bottom: 5px; }
+      .half-width {
+        float: left;
+        width: 100px;
+        list-style: none;
+        padding: 5px;
+        margin: 7px;
+        margin-bottom: 10px;
+      }
+      .half-width h4 {
+        margin-bottom: 5px;
+      }
+      .half-width ul {
+        padding-left: 0;
+      }
+      .half-width ul li {
+        list-style: inside;
+        font-size: 15px;
+      }
+      .clear-fix {
+        clear: both;
+      }
+    </style>
+    <script src="https://github.com/themes/minimal/javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+        <h1><a href="/">Notes</a></h1>
+        <p class="view"> <img src= "http://dilawar.github.io/images/pic_enhanced.jpg"
+            alt="dilawar" height="150" width="150" /> </p>
+        <p class="view"><a href="/projects/index.html">Open Source Projects <small>Might be useful to you</small></a></p>
+        <p class="view"><a target="_blank"
+            href="http://www.cen.iitb.ac.in/">Masters<small>Microelectronics and
+                VLSI</small></a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ee.iitb.ac.in/~hpc">Ph. D.</a><small>Abandoned
+            after 3 years</small>
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ncbs.res.in/bhalla">Research Fellow <small>Moose,
+                The Neural Simulator</small> </a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://dilawarrajput.wordpress.com">Blog <small>This much I
+                know</small></a> 
+        </p>
+
+        
+        </header>
+
+        <footer>
+        </footer>
+
+    <section id="post">
+    <h1>Dynamic Programming : Few remarks </h1>
+<div class="content">
+  <p>Why they still call it dynamic programing? I really do not know why people are so obsessed with continuing with the established non-sense. The name was given by Bellman, at a time when programming was an esoteric activity practised by only few crazy people. Those days it was not even worthy of a name.<a href="http://http://www.nature.com/nbt/journal/v22/n7/full/nbt0704-909.html"> Bellman gave it this name because it sound impressive</a> ( not surprising at all since he was an American!). Both of the words has little to do with how this method works. A more suitable name could have been 'top-down optimization' henceforth TDO.</p>
+
+<p>At first look, TDO can be mistaken seen as a recursive approach to a problem. There is a subtle difference. Recursive method will provide a solution but they will be painfully slower. Recursive method works very well when the 'divide-and-conquer' strategy produces a smaller problem which is significantly smaller than the original one (say, half the size) e.g. merge sort etc.</p>
+
+<p>TDO are suitable for the problem in which 'divide and conquer' can produce subproblems which are only slightly smaller than the original one. TDO at best can be approximated as a recursive strategy which remembers the solutions of previously solved smaller subproblems i.e. <em>memoisation</em> (yes, root word is memo).</p>
+
+<p>Almost all the problems which can be solved by TDO can be represented by a Directed Acyclic Graphs (DAG). Each node of this DAG represents the subproblem and an edge between two nodes gives the 'cost' of reaching from one node to another. The task is now reduced to find a path which maximize or minimize this cost. Again Bellman Ford algorithm can be used to find it. For specific problems, these methods can be improved. For example, solving<em> longest increasing subsequence problem </em>using  TDO gives a solution of $latex n<sup>2$</sup> complexity. However a $latex \frac{n<sup>2}{</sup> log(n)}$ method was given by Masek and Paterson.</p>
+
+<p>END NOTES :</p>
+
+<p>[1] Introduction to Algorithms, Cormen, Leiserson, Rivest and Stein</p>
+
+<p>[2] <a href="http://docs.google.com/viewer?a=v&amp;pid=explorer&amp;chrome=true&amp;srcid=12LJCfglPeeb1IxC0nYWBojqT0nW7Mhu6eaQdvBlBkb8oyOiMH3J6FVOBiHtZ&amp;hl=en_GB">See this document.</a></p>
+
+</div>
+
+<div id="related">
+  <h2>Related Posts</h2>
+  <ul class="posts">
+    
+      <li> <a href="/numerical%20computation/2014/01/30/Coding-With-Floats/">Coding with float</a></li>
+    
+      <li> <a href="/noguinomousenoproblem/2014/01/29/Using-mutt/">Using mutt, saving password and writing mail in markdown</a></li>
+    
+      <li> <a href="/[%22tutorial%22,%20%22literate%20programming%22]/2013/10/30/Python-frontend-for-noweb/">Python front-end for Noweb literate tool</a></li>
+    
+  </ul>
+</div>
+
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+<!-- Google analytic -->
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-47774588-1', 'dilawar.github.io');
+    ga('send', 'pageview');
+</script>
+
+<div id="comment">
+  
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  var disqus_shortname = 'dilawarblog'; // required: replace example with your forum shortname
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+   })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</div>
+
+
+
+    </section>
+
+    <!-- Latex in post -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Google analytic -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-47774588-1', 'dilawar.github.io');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>

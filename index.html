@@ -1,0 +1,15 @@
+---
+layout: default 
+title: Dilawar's notes
+---
+
+<div>
+  <ul class="post">
+    {% for post in site.posts %}
+    <li class="post"><span style="color:green; font-size:9pt"> </span> 
+    <a style="text-decoration:none"  href="{{site.baseurl}}{{post.url}}">{{ post.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+

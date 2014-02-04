@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="None worth writing.">
+    <title>Using mutt, saving password and writing mail in markdown</title>
+    <meta name="author" content="Dilawar Singh" />
+    <link rel="stylesheet" href="https://github.com/themes/minimal/stylesheets/styles.css">
+ <style>
+      header { zoom: 1.0; width: 150px}
+      header h1 { margin-bottom: 5px; }
+      header h1 a { color: #494949; font-weight: bold; }
+      header h3 { margin-top: 20px; margin-bottom: 5px; }
+      header p.view { margin-bottom: 5px; }
+      header p.view small { padding-top: 2px; }
+      header ul {
+        zoom: 0.7;
+        margin-top: 25px;
+      }
+      section { width: 600px }
+      section p { margin-top: 10px; }
+      section h1 { margin-bottom: 15px; }
+      section h2 { margin-bottom: 10px; }
+      section h2 { margin-bottom: 10px; }
+      footer { bottom: 20px; }
+      footer p { margin-bottom: 5px; }
+      .half-width {
+        float: left;
+        width: 100px;
+        list-style: none;
+        padding: 5px;
+        margin: 7px;
+        margin-bottom: 10px;
+      }
+      .half-width h4 {
+        margin-bottom: 5px;
+      }
+      .half-width ul {
+        padding-left: 0;
+      }
+      .half-width ul li {
+        list-style: inside;
+        font-size: 15px;
+      }
+      .clear-fix {
+        clear: both;
+      }
+    </style>
+    <script src="https://github.com/themes/minimal/javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+        <h1><a href="/">Notes</a></h1>
+        <p class="view"> <img src= "http://dilawar.github.io/images/pic_enhanced.jpg"
+            alt="dilawar" height="150" width="150" /> </p>
+        <p class="view"><a href="/projects/index.html">Open Source Projects <small>Might be useful to you</small></a></p>
+        <p class="view"><a target="_blank"
+            href="http://www.cen.iitb.ac.in/">Masters<small>Microelectronics and
+                VLSI</small></a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ee.iitb.ac.in/~hpc">Ph. D.</a><small>Abandoned
+            after 3 years</small>
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ncbs.res.in/bhalla">Research Fellow <small>Moose,
+                The Neural Simulator</small> </a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://dilawarrajput.wordpress.com">Blog <small>This much I
+                know</small></a> 
+        </p>
+
+        
+        </header>
+
+        <footer>
+        </footer>
+
+    <section id="post">
+    <h1>Using mutt, saving password and writing mail in markdown </h1>
+<div class="content">
+  <p>If I were forced to replace my mutt with some other general purpose email client
+I'd prefer thunderbird with plugin <code>muttator</code>.</p>
+
+<p>If you prefer easy to setup and click-based tools then you will not find
+mutt very exciting, however those who loves to split hair and tweak
+their tools to their whims will find much in mutt to please them.
+Learning the full power of mutt takes time and some sort of persistence.
+This post is not intended for first time user. It is meant for those who
+have tried their hands on mutt. In the end, there are some link which
+can help who wants to start using mutt. I had the fleeting temptation to
+combine my scripts in one which can set up <a href="http://github.com/dilawar/mutt">mutt
+automatically</a> for arbitrary no of
+accounts, but then it beats the whole purpose of tweaking the tool.</p>
+
+<h2>Using mutt</h2>
+
+<p>Mutt stores password in plain text format. To avoid this, I used <code>gpg</code>
+to encrypt a file in which password are stored. For example, a simple
+text file is created to store the password.</p>
+
+<pre><code>export EE_NAME="Dilawar Singh"
+export EE_USER=dilawar
+export EE_PASS=password1
+</code></pre>
+
+<p>This has export command which set an environment variable. Now I encrypt
+the file using <code>gpg</code></p>
+
+<pre><code>gpd -c password.txt
+</code></pre>
+
+<p>It will ask for a pass-phrase. When decrypting the file, you have
+provide the same pass-phrase. Passphrase are easy to remember and hard
+to crack. If I were Gabbar Singh, I would have chose something like
+<code>thakur a per katne chahiye the</code>. Hard to guess and easy to remember,
+isn't it? An encrypted file will be created by gpg default name
+<code>password.txt.gpg</code>. Mutt can read environment variables, let's exploit
+this fact. We write a wrapper around the mutt command. Let's name this
+script <code>my_mutt</code> or after the name of your pet doggie. And
+<code>chmod +x my_mutt</code> so it is executable. Store it somewhere like
+<code>/usr/local/bin</code>.</p>
+
+<pre><code>#!/bin/bash
+pwds=`gpg -d ~/.mutt/password.txt.gpg`
+eval $pwds
+mutt -F ~/.mutt/mutt_server "$@"
+</code></pre>
+
+<p>Second line decrypt the encrypted file, text of the file is stored in
+<code>pwds</code> variable and this text is executed by <code>eval</code> command. The
+environment variables are set. We invoke mutt in this shell so that it
+can access environment variables EE_USER, EE_PASS etc. On line 4,
+<code>-F ~/.mutt/mutt_server</code> says that this file is my config file which
+mutt must read. The default configuration file is <code>~/.muttrc</code>.</p>
+
+<p>In the configuration file, write something like this. You need to write
+some more to setup mutt. This is only fragment which is relevant to one
+account.</p>
+
+<pre><code># ~/Scripts/mutt/ee
+set from="$EE_NAME $EE_USER@ee.iitb.ac.in"
+set hostname="imaps://sandesh.ee.iitb.ac.in"
+set folder="imaps://sandesh.ee.iitb.ac.in"
+set imap_user="$EE_USER"
+set imap_pass="$EE_PASS"
+set record="+mail/Sent"
+set postponed="=Drafts"
+set spoolfile="imaps://sandesh.ee.iitb.ac.in/INBOX"
+set signature="sign.txt"
+set smtp_url="smtp://$GPO_USER@smtp-auth.iitb.ac.in:25"
+set stmp_pass="$GPO_PASS"
+set realname="$REAL_NAME"
+my_hdr Organization: EE, IIT Bombay, http://www.ee.iitb.ac.in
+</code></pre>
+
+<p>In my personal opinion, this is a good solution to store password on
+machine unless someone has a better solution which does not involve
+using a green lantern, nanobots or ability of code-bending.</p>
+
+<p>Writing HTML emails</p>
+
+<p>Mutt works great with text emails. But if you want to write emails for
+wncc group where code has to be written inline, html can help. See this
+question for potential solutions. <a href="http://unix.stackexchange.com/questions/108485/send-email-written-in-markdown-using-mutt">I have also written
+mine</a>.</p>
+
+<p>Resources:</p>
+
+<ol>
+<li>Mutt wiki is a good reference guide.</li>
+<li><a href="http://mutt.blackfish.org.uk/storage/">My first mutt</a></li>
+<li><a href="http://wcm1.web.rice.edu/mutt-tips.html">And this terminal lover
+blog</a></li>
+</ol>
+
+
+<h6>Related articles {.zemanta-related-title}</h6>
+
+<ul>
+<li><a href="https://wiki.archlinux.org/index.php?title=Mutt&amp;diff=294424&amp;oldid=292677"><img src="http://i.zemanta.com/noimg_86_80_80.jpg" alt="" /></a><a href="https://wiki.archlinux.org/index.php?title=Mutt&amp;diff=294424&amp;oldid=292677">Mutt</a></li>
+</ul>
+
+
+<p> </p>
+
+<p><a href="http://www.zemanta.com/?px" title="Enhanced by Zemanta"><img src="http://img.zemanta.com/zemified_e.png?x-id=13a77103-de2b-4a2d-9df6-62f794cab81a" alt="Enhanced by
+Zemanta" /></a></p>
+
+</div>
+
+<div id="related">
+  <h2>Related Posts</h2>
+  <ul class="posts">
+    
+      <li> <a href="/numerical%20computation/2014/01/30/Coding-With-Floats/">Coding with float</a></li>
+    
+      <li> <a href="/[%22tutorial%22,%20%22literate%20programming%22]/2013/10/30/Python-frontend-for-noweb/">Python front-end for Noweb literate tool</a></li>
+    
+      <li> <a href="/tutorial/2013/10/17/A-Moose-tutorial/">Moose tutorial - Python scripting</a></li>
+    
+  </ul>
+</div>
+
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+<!-- Google analytic -->
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-47774588-1', 'dilawar.github.io');
+    ga('send', 'pageview');
+</script>
+
+<div id="comment">
+  
+</div>
+
+
+
+    </section>
+
+    <!-- Latex in post -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Google analytic -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-47774588-1', 'dilawar.github.io');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>

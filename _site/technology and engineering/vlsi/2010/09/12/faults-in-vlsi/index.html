@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="None worth writing.">
+    <title>Overview of Faults in VLSI</title>
+    <meta name="author" content="Dilawar Singh" />
+    <link rel="stylesheet" href="https://github.com/themes/minimal/stylesheets/styles.css">
+ <style>
+      header { zoom: 1.0; width: 150px}
+      header h1 { margin-bottom: 5px; }
+      header h1 a { color: #494949; font-weight: bold; }
+      header h3 { margin-top: 20px; margin-bottom: 5px; }
+      header p.view { margin-bottom: 5px; }
+      header p.view small { padding-top: 2px; }
+      header ul {
+        zoom: 0.7;
+        margin-top: 25px;
+      }
+      section { width: 600px }
+      section p { margin-top: 10px; }
+      section h1 { margin-bottom: 15px; }
+      section h2 { margin-bottom: 10px; }
+      section h2 { margin-bottom: 10px; }
+      footer { bottom: 20px; }
+      footer p { margin-bottom: 5px; }
+      .half-width {
+        float: left;
+        width: 100px;
+        list-style: none;
+        padding: 5px;
+        margin: 7px;
+        margin-bottom: 10px;
+      }
+      .half-width h4 {
+        margin-bottom: 5px;
+      }
+      .half-width ul {
+        padding-left: 0;
+      }
+      .half-width ul li {
+        list-style: inside;
+        font-size: 15px;
+      }
+      .clear-fix {
+        clear: both;
+      }
+    </style>
+    <script src="https://github.com/themes/minimal/javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+        <h1><a href="/">Notes</a></h1>
+        <p class="view"> <img src= "http://dilawar.github.io/images/pic_enhanced.jpg"
+            alt="dilawar" height="150" width="150" /> </p>
+        <p class="view"><a href="/projects/index.html">Open Source Projects <small>Might be useful to you</small></a></p>
+        <p class="view"><a target="_blank"
+            href="http://www.cen.iitb.ac.in/">Masters<small>Microelectronics and
+                VLSI</small></a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ee.iitb.ac.in/~hpc">Ph. D.</a><small>Abandoned
+            after 3 years</small>
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://www.ncbs.res.in/bhalla">Research Fellow <small>Moose,
+                The Neural Simulator</small> </a> 
+        </p>
+        <p class="view"><a target="_blank"
+            href="http://dilawarrajput.wordpress.com">Blog <small>This much I
+                know</small></a> 
+        </p>
+
+        
+        </header>
+
+        <footer>
+        </footer>
+
+    <section id="post">
+    <h1>Overview of Faults in VLSI </h1>
+<div class="content">
+  <p>Someone who has access to market and someone who has access to capital came up
+with an evil plan. They want to make a VLSI circuit and then they will fabricate
+it and sell it to puny humans to make money [Evil laugh]. What they want to
+create will surely depend on what their consumers will find useful. So they hire
+someone who has expertise in consumer electronics and pays her to figure out
+what they can sell to them with some good profit. After doing her tricks, she
+gives them certain <strong><a href="http://en.wikipedia.org/wiki/Product_requirements_document">product
+reqpuirements</a>.
+</strong>Now these product requirements are sent to us - the engineers. We try very
+hard to concentrate on them and after some time under the influence of burnt-out
+neurons, we are able to draw up <strong><a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=04644754">specifications of VLSI
+circuit</a>. </strong>These
+specification usually describes the <a href="http://www.people.vcu.edu/~rhklenke/tutorials/vhdl/modules/m12_23/sld006.htm">behaviour of the circuit (e.g. in VHDL,
+Verilog).</a>
+Moreover, this specifications are embedded inside the model of the environment
+in which this circuit suppose to work. For example, a chip designed to work over
+Himalayas needs to be tested for temperature range -20 to -50 degree centigrade,
+however if the targeted consumers are normal lesser mortals working in their
+cozy rooms, these conditions of negative temperature can be relaxed or dropped
+altogether.</p>
+
+<p>Now, my job starts. Based on these specifications, I have to come up with a
+design. Depending on the level of my experiences and expertise in design, I
+refine my design over the time mostly by trial and error, and educated guesses.
+During all these trials, errors, and educated guesses, I 'll have my moment of
+genius which even I can not control.  Normally, all these testing and designing
+are done with <a href="http://www.gnu.org/software/electric/">T-CAD tools</a>. Ultimately
+I'll produce a <a href="http://opencircuitdesign.com/magic/"><strong>layout<em> </em></strong></a>of the
+circuit which is to be manufactured.</p>
+
+<p>The layout then converted into <a href="http://www.google.com/url?sa=t&amp;source=web&amp;cd=2&amp;ved=0CBcQFjAB&amp;url=http%3A%2F%2Fwww-micro.deis.unibo.it%2F~masetti%2FDida01%2FtecCMOS.pdf&amp;ei=tcKMTPeQEcL98AbA1Nm2Cw&amp;usg=AFQjCNE_uwbDnnSLEtz17dpKB0TF5ZeCxQ&amp;sig2=rcBxcuCWfQ4df57MsPE0Vw">masks which are used to fabricate
+</a>this
+circuit in a fabrication facility.</p>
+
+<h1>Testing, Verification and Validation</h1>
+
+<p>I do have trouble making distinction among these words but there are few things
+which are different in them and are easy to see. Here, I define these terms as
+defined by our Professor, <a href="http://www.ee.iitb.ac.in/wiki/faculty/madhav">Madhav P. Desai
+</a>during the course on
+<em>Verification and Testing of VLSI Circuits</em>.</p>
+
+<ul>
+<li><p>By testing, we normally refer to the process used to determine <strong>that the
+manufactured circuit is functional</strong>. Every manufactured circuit needs to be
+tested, and the result of the test should, with a <strong>high degree of
+confidence</strong>, determine that the circuit is functional.</p></li>
+<li><p>By verification, we normally refer to the process used to confirm that
+<strong>refinements in the design process are consistent with the circuit
+specification</strong>. For example, when a logic circuit is implemented using
+transistors, we need to verify that the transistor network is equivalent to
+the logic circuit which it is supposed to implement. This is done at each
+refinement step in the design process.</p></li>
+<li><p>By validation, we normally refer to the process used to confirm that a
+functional manufactured <strong>circuit will fulfill the requirements</strong> to which
+it was designed. This usually involves construction of a prototype and a
+test setup which mimics reality to the <strong>maximum extent possible</strong>.</p></li>
+</ul>
+
+
+<p>After the fabrication, circuit must behave the way it was designed for, else we
+have failed as engineers. However, since no process is fault free, it could
+happen that the end product behave in unexpected ways. I like to think of it as
+<strong>this chip has developed a sense of humor. </strong>Now all these above mentioned
+processes can be utilized to remove this <strong>sense of humor </strong>out of the chip to
+make it behave in boring and rigid ways again. At the end of the day, it should
+work as it is told. <strong>Humor is the prerogative of Humans, machines must be
+humorless.</strong></p>
+
+<h1>Faults in VLSI</h1>
+
+<p>Faults in VLSI can occur due to various reasons. Most prominent among them is
+due to flaws and variation fabrication processes (when engineer is competent).
+These causes of faults are discussed in <a href="http://portal.acm.org/citation.cfm?id=37888.37914">[Mally,
+1987]</a>. Break in metal lines,
+over and under deposition of material, alien particles in fabrication process
+are the major sources of faults. As a designer, we need to test these faults as
+early as possible. Later the fault is located, costlier it gets by an order of
+magnitude (I do not have exact numbers here).</p>
+
+<p>Following figure 1 shows a messed-up device fabricated by me with the help of
+lab-staff during my M. Tech. Though it was useless for us then, it is useful for
+us for our present discussion.</p>
+
+<p>[caption id="attachment_85" align="alignleft" width="570"]<a href="http://dilawarnotes.files.wordpress.com/2010/09/it_faults1.jpg"><img src="http://dilawarnotes.files.wordpress.com/2010/09/it_faults1.jpg" alt="Faults in
+Fabrication" /></a>
+Figure 1 : Faults in fabrication[/caption]</p>
+
+<p>[caption id="attachment_77" align="alignright"
+width="364"]<img src="http://dilawarnotes.files.wordpress.com/2010/09/alien_particle_short.jpg" alt="" />
+Figure 2 : Alien particles during fabrication. Short of tacks.[/caption]</p>
+
+<p>Figure 2 shows the alien particles causing the short. Extra deposition and less
+deposition of materials cause most of the shorts and open circuits problem.</p>
+
+<p>Figure 3 shows the less deposition of material causing a track to be less
+conductive. Any logic propagated through this track will be weaker than the
+perfect track.</p>
+
+<p>Figure 4 shows that in spite of material deposition was sufficient, part of the
+track may still come off due to less adhesion between the deposited material and
+the substance.</p>
+
+<p>[caption id="attachment_88" align="alignleft" width="289"]<a href="http://dilawarnotes.files.wordpress.com/2010/09/lift_off_gold_dot_on_si.png"><img src="http://dilawarnotes.files.wordpress.com/2010/09/lift_off_gold_dot_on_si.png" alt="Gold liftoff from
+Si" /></a>
+Figure 4 : SEM image shows that gold may not stick very well to the Si
+substrate. Same thing can happen with other pairs of material.[/caption]</p>
+
+<p>[caption id="attachment_78" align="alignleft"
+width="50"]<a href="http://dilawarnotes.files.wordpress.com/2010/09/partial_broken_track.jpg"><img src="http://dilawarnotes.files.wordpress.com/2010/09/partial_broken_track.jpg" alt="" /></a>
+Figure 3 : Less materical deposition causing partial break in track.[/caption]</p>
+
+<p>These faults, among others, are classified as spot defects. Geometrically, these
+are randomly distributed over the entire fabrication area. For more details on
+these faults we refer to <a href="http://portal.acm.org/citation.cfm?id=37888.37914">[Mally,
+1987]</a>. To summarize,</p>
+
+<ul>
+<li><p>Spot defects are regions of missing or extra material, (or drastically
+changed with physical material characteristics) that may occur in any layer
+of the fabricated IC.</p></li>
+<li><p>These are expressed as number of defects per unit area. However, some
+defects such as oxide pinholes and substrate dislocation can be expressed in
+density only.</p></li>
+<li><p>Cluster per unit area describes proneness of a region for defects.
+Distribution of defect size is also a prominent fault-matrix component.</p></li>
+<li><p>Short is generally caused by extra material deposition at a spot of missing
+insulating material between two conductive tracks.</p></li>
+<li><p>Break is generally caused by missing conductive material or extra insulating
+material in insulating windows.</p></li>
+<li><p>Shorts and breaks occur both in horizontal and vertical direction. Since
+these days there are multi layer fabrication process are done in modern chip
+fabrication. Vertical shorts and breaks are as important as the horizontal
+one.</p></li>
+</ul>
+
+
+<h1>Fault Modeling</h1>
+
+<h2>Test Sequence Detectability</h2>
+
+<p>Let's make a gauge to measure how fault-free my circuit is. If I do a test, can
+I answer this question. <strong>What are the chances that a successfully tested IC
+still contains undetected faults? [FOOTNOTE] </strong>Such is measure which one can
+name <strong>test sequence detectability, </strong>$$D$$<strong>. </strong>It is defined as,</p>
+
+<p>$$D = \prod_{i=1}<sup>{n_e}(1-{p_i})$$</sup></p>
+
+<p>where,</p>
+
+<p>$$p_i$$ is the probability of the occurrence of faults and  $$n_e$$ are
+the faults that can not be detected by a given test sequence. Well, defining it
+this make sense to me.</p>
+
+<p>If I can list out all the possible faults that can occur in my circuit and their
+number is $$n$$. Let assume that $$n_f$$ is the number of faults which I
+am testing my circuit for and let  $$n_e$$ are the faults which I can NOT
+detect during my test. Then, $$\frac{n_f -n_e}{n_f}$$ represent
+traditional fault coverage and, of course, $$n > n_f$$.</p>
+
+<p>Hence an ultimate fault model must list out all the possible faults with their
+probability of occurrence. Practically, these faults model are based on the
+experience of an Institute or company. <a href="http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=784281&amp;tag=1">[Birolini,
+1994]</a> gives
+details about fault occurrence in VLSI circuits. Some figures are given below.</p>
+
+<p><strong>Components</strong></p>
+
+<p><strong>Short %</strong></p>
+
+<p><strong>Open %</strong></p>
+
+<p><strong>Degradation %</strong></p>
+
+<p><strong>Functional %</strong></p>
+
+<p>digital, bipolar ICs</p>
+
+<p>30</p>
+
+<p>30</p>
+
+<p>10</p>
+
+<p>30</p>
+
+<p>digital MOS ICs</p>
+
+<p>20</p>
+
+<p>10</p>
+
+<p>30</p>
+
+<p>40</p>
+
+<p>linear ICs</p>
+
+<p>30</p>
+
+<p>10</p>
+
+<p>10</p>
+
+<p>50</p>
+
+<p>bipolar transistors</p>
+
+<p>70</p>
+
+<p>20</p>
+
+<p>10</p>
+
+<p>--</p>
+
+<p>field-effect transistors</p>
+
+<p>80</p>
+
+<p>10</p>
+
+<p>10</p>
+
+<p>--</p>
+
+<h1>Stuck at Models</h1>
+
+<p>A traditional model is <strong>stuck at model</strong>.<em> </em>In this model, one prescribe to the
+lines in the logic representation on the IC either state '1' or state '0' as
+permanent state.</p>
+
+<p>TODO : Give a brief overview. Meanwhile readers can refer to a book by Kohavi.</p>
+
+<hr />
+
+<p>BACK TO POST [1] . Naturally, one uses probabilistic models while studying them.</p>
+
+</div>
+
+<div id="related">
+  <h2>Related Posts</h2>
+  <ul class="posts">
+    
+      <li> <a href="/numerical%20computation/2014/01/30/Coding-With-Floats/">Coding with float</a></li>
+    
+      <li> <a href="/noguinomousenoproblem/2014/01/29/Using-mutt/">Using mutt, saving password and writing mail in markdown</a></li>
+    
+      <li> <a href="/[%22tutorial%22,%20%22literate%20programming%22]/2013/10/30/Python-frontend-for-noweb/">Python front-end for Noweb literate tool</a></li>
+    
+  </ul>
+</div>
+
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+<!-- Google analytic -->
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-47774588-1', 'dilawar.github.io');
+    ga('send', 'pageview');
+</script>
+
+<div id="comment">
+  
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  var disqus_shortname = 'dilawarblog'; // required: replace example with your forum shortname
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+   (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+   })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+</div>
+
+
+
+    </section>
+
+    <!-- Latex in post -->
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <!-- Google analytic -->
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-47774588-1', 'dilawar.github.io');
+        ga('send', 'pageview');
+    </script>
+</body>
+</html>
