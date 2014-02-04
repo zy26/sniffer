@@ -1,6 +1,6 @@
 ---
 layout: post 
-title: About
+title: Install
 comments: true
 repository_url: http://github.com/dilawar/sniffer
 ---
