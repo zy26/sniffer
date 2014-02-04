@@ -29,3 +29,12 @@ following command
 Any of these two method will install code-sniffer to your system
 
 ## How to use it
+
+First you need to create a configuration file `~/.config/sniffer/config`. You
+can see a [sample file here]({{ page.repository_url }}/snifferrc). If you choose
+to save this file at some other location, you need to specify the location using
+`--config` option at command line e.g.
+
+    $ code-sniffer --config ~/.snifferrc 
+
+
