@@ -12,7 +12,7 @@ location using `--config` option at command line e.g.
 
     $ code-sniffer --config ~/.snifferrc 
 
-Let's look at a sample
+Let's look at a sample. Options are explained in cofig file itself.
 
 ~~~
 {% include text/config %}
