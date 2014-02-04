@@ -11,3 +11,21 @@ some capabilities to check copying in pdf files also.
 
 This is poor man [MOSS](http://theory.stanford.edu/~aiken/moss/). It is perhaps
 not as fast as MOSS but I have great success with it as a teching assistant.
+
+## Installation
+
+You can install it using `python-setuptools`. It is also available on `pypi`. To
+install, do
+
+    $ pip install code-sniffer 
+
+If you are behind proxy, check out how to use `pip` behind proxy. You can also
+download the code from its [gihub repository]({{page.repository_url}}). Run the
+following command
+
+    $ python setup.py build 
+    $ sudo python setup.py install 
+
+Any of these two method will install code-sniffer to your system
+
+## How to use it
