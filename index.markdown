@@ -7,10 +7,11 @@ repository_url: http://github.com/dilawar/sniffer
 
 ## {{ page.title }} 
 
-## What it does?
+In following image, each node is a student, each edge shows how much copy has
+been done between two students. Thicker the edge, larger the copy. There are $n$
+files matching if there are $n$ edges between two students. 
 
-Checkout this image. Each node is a student, each edge shows how much copy has
-been done between two students. ![Plagiarism in code]({{ site.url }}/images/copy_all.jpg).
+![Plagiarism in code]({{ site.url }}/images/copy_all.jpg).
 
 This application is intended to use to check plagiarism in assignments. It has
 some capabilities to check copying in pdf files also.
