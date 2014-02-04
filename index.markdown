@@ -9,7 +9,7 @@ repository_url: http://github.com/dilawar/sniffer
 
 ## What it does?
 
-![Plagiarism in code]({{ site.url/images/copy_all.png).
+![Plagiarism in code]({{ site.url }}/images/copy_all.png).
 
 This application is intended to use to check plagiarism in assignments. It has
 some capabilities to check copying in pdf files also.
