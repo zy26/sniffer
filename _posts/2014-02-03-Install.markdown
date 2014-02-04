@@ -5,8 +5,10 @@ comments: true
 repository_url: http://github.com/dilawar/sniffer
 ---
 
-You can install it using `python-setuptools`. It is also available on `pypi`. To
-install, do
+Although you can install it using `python-setuptools` after download the master
+branch, the recommended way is to install using `pip` or `easy_install`. You
+should install `python-pip` or `python-setuptools` to install this package from
+`pypi`.
 
     $ pip install code-sniffer 
 
@@ -18,13 +20,4 @@ following command
     $ sudo python setup.py install 
 
 Any of these two method will install code-sniffer to your system
-
-## How to use it
-
-First you need to create a configuration file `~/.config/sniffer/config`. You
-can see a [sample file here]({{ page.repository_url }}/master/blob/snifferrc).
-If you choose to save this file at some other location, you need to specify the
-location using `--config` option at command line e.g.
-
-    $ code-sniffer --config ~/.snifferrc 
 
