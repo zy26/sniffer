@@ -1,5 +1,5 @@
 ---
-layout: post 
+layout: page
 title: About
 repository_url: http://github.com/dilawar/sniffer
 ---
