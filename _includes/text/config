@@ -1,38 +1,58 @@
 [source]
 # Dir where various folders containing source codes or text files are located.
-# This directory will be 'walked' and each subdirectory inside this directory
-# will be considered as a separate directory. 
-#dir = /home/dilawar/Works/hpc21/2013ee668/Assignments/A5/Submissions
+# Each student must have his own directory under this directory. For example, if
+# there are three students Tinku, Pinky, and Bablu; you should keep their
+# directories as following.
+# 
+# dir
+# |
+# +-- Tinku
+# |   |
+# |   +-- a.vhd
+# |   |
+# |   +-- b.vhd
+# +-- Pinky 
+# |   |
+# |   +-- que1.vhd
+# |   |
+# |   +-- test.vhd
+# |               
+# +-- Bablu
+# |   |
+# |   +-- a.vhd
+# |   |
+# |   +-- Test
+# |   |   |
+# |   |   +-- test.vhd
+# |   +-- b.vhd
+# 
 dir = /home/dilawar/Bhandar/Plagiarism/EE671
 
-# This is the regular expression of the names of files. If you want to compare
+# These are the extension of files we want of files. If you want to compare
 # all files leave it empty or .* will do. 
-regex = .*(cir|spice)$
+extension = vhd, vhdl
 
 # Specify language of file.
 # Available : vhdl, verilog, ctype, text, pdf 
-language = text
-
-# Compiler. Currently this is of no use.
-compiler = ghdl
-
-# make compare true if you want to compare. If this is not set to true, it won't
-# match. This is here for development purpose. In most cases, this should be
-# true.
-compare = true
+language = vhdl
 
 # Dump the results of analysis in directory of database.
-analyze_result = true 
-
-# Currently useless.
-send_email = false
+dump_result = true 
 
 [filter]
-# If this regex is found in the text of file, then the file is ignored. 
+
+# A list of text which if found in file then reject the file. 
+# textA >> textB; reject file if  textA is followed by textB
+# textA || textB; reject file if textA or textB is found.
+# textA && textB; reject if both text are found.
+ignore_text = entity QueuTb >> Madhav Desai
+
+# If you know python re library then you can specify the regular expression
+# which should be ignore.
 regex = ((entity\s+QueueTb)|(Madhav\s+Desai))
 regex_flags = DOTALL,IGNORECASE 
 
-# larger size will be ignored. -1 for all. In Kb
+# larger size will be ignored. -1 for infinite size. In Kb
 max_size = -1
 
 # Max words a text file can contains. -1 for 2^32.
@@ -48,6 +68,3 @@ name = difflib
 # path : Path where sqlite3 database should be saved. 
 path = /home/dilawar/Downloads/
 
-# Name of the database.
-name = sniffer.sqlite3 
-#name = :memory:
