@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Code sniffer
+title: Home
 comments: true
 repository_url: http://github.com/dilawar/sniffer
 ---
