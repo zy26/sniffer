@@ -2,6 +2,17 @@
 layout: default
 ---
 
+<!-- Create a list of pages on the right side -->
+<style>
+    li { display: inline }
+</style>
+
+<ul>
+{% for p in site.pages %}
+    <li> <a href= {{ p.url }}>{{ page.title }} </a></li>
+{% endfor %}
+</ul>
+
 <h1>{{ page.title }} </h1>
 <div class="content">
   {{ content }}
