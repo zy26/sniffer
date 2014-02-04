@@ -18,6 +18,7 @@ layout: default
 
 <div id="navbar">
     <ul>
+        <li><a href="{{site.url}}">Home</a></li>
         {% for p in site.posts %}
         <li><a href="{{site.url}}{{p.url}}">{{ p.title }} </a></li>
         {% endfor %}
