@@ -4,13 +4,17 @@ layout: default
 
 <!-- Create a list of pages on the right side -->
 <style>
-    li { display: inline; width: 50px; }
+    #navbar ul li { display: inline; width: 50px; }
 </style>
-<ul>
-{% for p in site.pages %}
-    <li><a href="{{site.url}}{{p.url}}">{{ p.title }} </a></li>
-{% endfor %}
-</ul>
+
+<div id="navbar">
+    <ul>
+        {% for p in site.pages %}
+        <li><a href="{{site.url}}{{p.url}}">{{ p.title }} </a></li>
+        {% endfor %}
+    </ul>
+</div>
+
 <h3>{{ page.title }} </h3>
 <div class="content">
   {{ content }}
