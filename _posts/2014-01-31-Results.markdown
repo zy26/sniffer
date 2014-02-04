@@ -22,4 +22,4 @@ Running them will produce a graphviz graph. Matched files are listed according
 to severity level. Let's see a file which has very high level of matching; it is
 named `veryhigh_serverity`.
 
-{% include text/high_serverity.csv %}
+{% include text/veryhigh_serverity.csv %}
