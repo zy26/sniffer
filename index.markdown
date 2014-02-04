@@ -9,7 +9,8 @@ repository_url: http://github.com/dilawar/sniffer
 
 ## What it does?
 
-![Plagiarism in code]({{ site.url }}/images/copy_all.png).
+Checkout this image. Each node is a student, each edge shows how much copy has
+been done between two students. ![Plagiarism in code]({{ site.url }}/images/copy_all.png).
 
 This application is intended to use to check plagiarism in assignments. It has
 some capabilities to check copying in pdf files also.
