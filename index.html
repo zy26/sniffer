@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Sniffer by dilawar</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Sniffer</h1>
+        <p>A poor man MOSS (Measure of software similarity) </p>
+
+        <p class="view"><a href="https://github.com/dilawar/sniffer">View the Project on GitHub <small>dilawar/sniffer</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/dilawar/sniffer/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/dilawar/sniffer/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/dilawar/sniffer">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>
+<a name="about" class="anchor" href="#about"><span class="octicon octicon-link"></span></a>About</h2>
+
+<p>This program is intended to be used to check plagiarism in assignments. It is a
+poor man's <code>MOSS&lt;http://theory.stanford.edu/~aiken/moss/&gt;</code>_.</p>
+
+<h1>
+<a name="status-" class="anchor" href="#status-"><span class="octicon octicon-link"></span></a>Status </h1>
+
+<p>Under development but can be used. Report bugs on it <code>github
+  page&lt;http://github.com/dilawar/sniffer&gt;</code>_.</p>
+
+<h1>
+<a name="dependency-" class="anchor" href="#dependency-"><span class="octicon octicon-link"></span></a>Dependency </h1>
+
+<ol>
+<li>Python2.6 or later</li>
+<li>python-pdfminer (for pdf file)</li>
+<li>python-sqlite3</li>
+</ol><h1>
+<a name="usage-" class="anchor" href="#usage-"><span class="octicon octicon-link"></span></a>Usage </h1>
+
+<p>The default path for configuration file is <code>~/.config/sniffer/config</code>. For
+non-standard location, use <code>--config</code> option.::</p>
+
+<p>code-sniffer --config config-file-path</p>
+
+<p>If you want to run it from the repository then run the <code>run.sh</code> file in
+terminal. Make sure you have <code>python-pdfmider</code> library installed.</p>
+
+<p>See the following section on how to edit the <code>snifferrc</code> file.</p>
+
+<h1>
+<a name="config-file-" class="anchor" href="#config-file-"><span class="octicon octicon-link"></span></a>Config file </h1>
+
+<p>A sample config file is shown below</p>
+
+<p>::
+    [source]</p>
+
+<pre><code># This is main directory.
+# This directory contains folders. Each folder is compared against every
+# other folder.
+# Each folder is walked and files matching `regex` are collected. These
+# files will be compared.
+dir = /home/dilawar/Works/hpc21/2013ee668/Assignments/A4/Submissions
+
+# This is the regular expression of the names of files. If you want to compare
+# all files leave it empty or .* will do. In this example, we will only
+# consider files which are ended with vhdl or vhd extension.
+regex = .*(vhdl|vhd)$
+
+# Specify language of file.
+# Available : vhdl, verilog, ctype, text, pdf. If in doubt make it text.
+# Further support to be added to other languages as well. 
+language = vhdl
+
+# Make compare true if you want to compare. If this is not set to true, it won't
+# match. This is here for development purpose. In most cases, this should be
+# true.
+compare = true
+
+# Dump the results of analysis in directory of `database`.
+analyze_result = true 
+
+# Currently useless.
+send_email = false
+
+[filter]
+# If this regex is found in the text of file, then the file is ignored. The
+# format of regex is defined in python re library.
+regex = ((Madhav\s+Desai)|(entity\s+(reg|\w*mux\w*|unsigned\_(comparator|adder)|mux\dto\d|decoder\dto\d|Datapath)\s+is)|(operand1.+operand2.+result.+overflow)|(data\_in.+data\_out.+clock))
+regex_flags = DOTALL,IGNORECASE 
+
+# larger than this size will be ignored. -1 for all. In Kb
+max_size = -1
+
+# Max words a text file can contains. -1 for 2^32.
+max_words = 10000
+# Mininum words a text files must contain.
+min_words = 100
+
+[algorithm]
+# Available algoritms : difflib, quick, . Quick is not available in this
+# relase. So leave it unchanged.
+name = difflib
+
+[database]
+# Path where sqlite3 database should be saved. Generated graphviz files will
+# be saved to this file only. After match is complete, results are stored in
+# csv files. identical_severity.csv has the almost matching files followed
+# by very_high_serverity.csv, high_serverity.csv etc.
+path = /home/dilawar/Works/hpc21/2013ee668/Assignments/A4/db/
+
+# Name of the database. Leave it as it is. If :memory: is used then database
+# is build in memory. Untested feature.
+name = sniffer.sqlite3 
+#name = :memory:
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/dilawar">dilawar</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
