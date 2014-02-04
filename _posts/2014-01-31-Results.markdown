@@ -29,4 +29,4 @@ named `veryhigh_serverity.csv`.
 We can now run a shell script `convicted.sh` to see a graph which displays how
 much copying is done by the class.
 
-![Convicted students]({{site.url}}images/convicted.png)
+![Convicted students]({{site.url}}/images/convicted.png)
