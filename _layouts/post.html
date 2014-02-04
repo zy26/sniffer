@@ -3,9 +3,13 @@ layout: default
 ---
 
 <!-- Create a list of pages on the right side -->
-<ul class="page">
+<style>
+    li { display: inline }
+</style>
+
+<ul class="header">
 {% for page in site.pages %}
-    <li> <a href= {{ page.url }}>{{ page.title }} </a></li>
+    <li > <a href= {{ page.url }}>{{ page.title }} </a></li>
 {% endfor %}
 </ul>
 
