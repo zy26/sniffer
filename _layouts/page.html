@@ -4,12 +4,12 @@ layout: default
 
 <!-- Create a list of pages on the right side -->
 <style>
-    li { display: inline; width=50px; }
+    li { display: inline; width: 50px; }
 </style>
 
 <ul>
 {% for p in site.pages %}
-    <li><a href="{{p.url}}/index.html">{{ p.title }} </a></li>
+    <li><a href="{{p.url}}">{{ p.title }} </a></li>
 {% endfor %}
 </ul>
 
