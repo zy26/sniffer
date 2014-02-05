@@ -17,3 +17,8 @@ Let's look at a sample. Options are explained in cofig file itself.
 ~~~
 {% include text/config %}
 ~~~
+
+You will see something like following when `code-sniffer` is executed
+successfully.
+
+![Screenshot]({{site.url}}/images/screenshot.png)
