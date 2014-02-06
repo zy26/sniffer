@@ -5,10 +5,10 @@ comments: true
 repository_url: http://github.com/dilawar/sniffer
 ---
 
-First you need to create a configuration file `~/.config/sniffer/config`. You
-can see a [sample file here]({{ page.repository_url }}/master/blob/snifferrc).
-If you choose to save this file at some other location, you need to specify the
-location using `--config` option at command line e.g.
+Create its configuration file `~/.config/sniffer/config` (see  a [sample file
+here]({{ page.repository_url }}/master/blob/snifferrc)).  If you choose to save
+this file at some other location, you have to specify this location using
+`--config` option at command line e.g.
 
     $ code-sniffer --config ~/.snifferrc 
 
@@ -18,7 +18,7 @@ Let's look at a sample. Options are explained in cofig file itself.
 {% include text/config %}
 ~~~
 
-You will see something like following when `code-sniffer` is executed
+You should see something like following when `code-sniffer` is executed
 successfully.
 
 ![Screenshot]({{site.url}}/images/screenshot.png)

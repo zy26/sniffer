@@ -5,10 +5,9 @@ comments: true
 repository_url: http://github.com/dilawar/sniffer
 ---
 
-Although you can install it using `python-setuptools` after download the master
-branch, the recommended way is to install using `pip` or `easy_install`. You
-should install `python-pip` or `python-setuptools` to install this package from
-`pypi`.
+Download the zip file from {{page.repository_url}} and use `python-setuptools`
+to install it. I recommend using `pip` or `easy_install`; it install it from
+pypi where a stable version is kept.
 
     $ pip install code-sniffer 
 
