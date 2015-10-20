@@ -29,6 +29,7 @@ def buildListingDb(config) :
     else :
       db = sql.connect(dbName)
 
+    db.text_factory = str
     db = initializeDb(db)
     db = populateDB(config, db)
     return db
