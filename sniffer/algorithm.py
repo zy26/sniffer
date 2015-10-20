@@ -11,6 +11,10 @@ def formatText(txt, lang) :
     import lang_verilog as verilog
     obj = verilog.Verilog()
     return obj.fix_text(txt)
+  if lang == "ctype" :
+    import lang_ctype as ctype
+    obj = ctype.Ctype()
+    return obj.fix_text(txt, lang)[0]
   if lang == "pdf" :
     import lang_pdf as pdf
     # NOTE: txt is filename
